@@ -36,8 +36,10 @@ make deploy
 The instance appears in your Tailscale admin console within ~30 seconds. Connect via:
 
 ```bash
-ssh tail2c2
+ssh ec2-user@tail2c2
 ```
+
+The default user for Amazon Linux 2023 is `ec2-user`.
 
 ### Other targets
 
@@ -61,4 +63,4 @@ Also remove the node from your [Tailscale admin console](https://login.tailscale
 | Resource | Description |
 |---|---|
 | `aws_security_group` | Egress-only (no inbound rules) |
-| `aws_instance` | t4g.nano, AL2023 ARM64, Tailscale via user_data |
+| `aws_instance` | t4g.micro (Free Tier), AL2023 ARM64, Tailscale via user_data |

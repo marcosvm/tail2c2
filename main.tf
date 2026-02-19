@@ -37,7 +37,7 @@ resource "aws_security_group" "this" {
 
 resource "aws_instance" "this" {
   ami                    = data.aws_ami.al2023_arm64.id
-  instance_type          = "t4g.nano"
+  instance_type          = "t4g.micro"
   vpc_security_group_ids = [aws_security_group.this.id]
 
   user_data = templatefile("${path.module}/user_data.sh", {
