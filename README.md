@@ -8,6 +8,14 @@ Terraform config that launches a t4g.nano (ARM/Graviton) EC2 instance running Am
 - AWS CLI configured (`aws configure` or environment variables)
 - A Tailscale [auth key](https://login.tailscale.com/admin/settings/keys) (pre-authorized recommended)
 
+## Getting a Tailscale Auth Key
+
+1. Open the [Tailscale admin console](https://login.tailscale.com/admin/settings/keys)
+2. Click **Generate auth key**
+3. Enable **Reusable** if you plan to recreate the instance, otherwise leave as single-use
+4. Enable **Pre-approved** so the node joins without manual approval
+5. Copy the key (starts with `tskey-auth-`)
+
 ## Usage
 
 ### 1. Bootstrap the deployer IAM role (one-time, requires admin)

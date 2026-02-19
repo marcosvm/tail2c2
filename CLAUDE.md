@@ -1,0 +1,3 @@
+- Always update documentation (README.md, etc.) when making changes
+- Always update history.md with what was done
+- Never commit history.md or blog.md
