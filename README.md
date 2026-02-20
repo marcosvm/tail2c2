@@ -58,9 +58,41 @@ make destroy
 
 Also remove the node from your [Tailscale admin console](https://login.tailscale.com/admin/machines) if using a single-use auth key.
 
+## Peer Relay
+
+The `enable_peer_relay` variable (default `false`) configures the instance as a [Tailscale peer relay](https://tailscale.com/kb/1459/peer-relay). When enabled:
+
+- `tailscale set --relay-server-port=40000` runs during provisioning
+- UDP port 40000 is opened inbound in the security group
+
+Set it in your `terraform.tfvars`:
+
+```hcl
+enable_peer_relay = true
+```
+
+Changing this toggle replaces the instance (user_data changes trigger recreation).
+
+### Tailscale ACL prerequisite
+
+A grant must be added in the Tailscale admin console (Access Controls → Policy file) to allow devices to use the relay:
+
+```json
+{
+  "grants": [{
+    "src": ["autogroup:member"],
+    "dst": ["tag:relay"],
+    "app": { "tailscale.com/cap/relay": [] }
+  }]
+}
+```
+
+The EC2 node must also be tagged `tag:relay` in the Tailscale admin console.
+
 ## Resources Created
 
 | Resource | Description |
 |---|---|
-| `aws_security_group` | Egress-only (no inbound rules) |
+| `aws_security_group` | Egress-only by default; UDP 40000 ingress when relay enabled |
+| `aws_security_group_rule.relay_udp` | Conditional UDP 40000 ingress for peer relay |
 | `aws_instance` | t4g.micro (Free Tier), AL2023 ARM64, Tailscale via user_data |

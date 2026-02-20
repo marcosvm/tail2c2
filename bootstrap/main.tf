@@ -50,6 +50,8 @@ resource "aws_iam_role_policy" "deployer" {
           "ec2:DeleteSecurityGroup",
           "ec2:AuthorizeSecurityGroupEgress",
           "ec2:RevokeSecurityGroupEgress",
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupIngress",
         ]
         Resource = "*"
       },

@@ -12,3 +12,8 @@ variable "instance_name" {
   type    = string
   default = "tail2c2"
 }
+
+variable "enable_peer_relay" {
+  type    = bool
+  default = false
+}

@@ -41,11 +41,22 @@ resource "aws_instance" "this" {
   vpc_security_group_ids = [aws_security_group.this.id]
 
   user_data = templatefile("${path.module}/user_data.sh", {
-    tailscale_auth_key = var.tailscale_auth_key
-    instance_name      = var.instance_name
+    tailscale_auth_key  = var.tailscale_auth_key
+    instance_name       = var.instance_name
+    enable_peer_relay   = var.enable_peer_relay
   })
 
   tags = {
     Name = var.instance_name
   }
+}
+
+resource "aws_security_group_rule" "relay_udp" {
+  count             = var.enable_peer_relay ? 1 : 0
+  type              = "ingress"
+  from_port         = 40000
+  to_port           = 40000
+  protocol          = "udp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.this.id
 }
